@@ -1,0 +1,166 @@
+/* ================================
+   Map Page
+   ================================ */
+
+   .map-container {
+    position: relative;
+    flex: 1;
+    background: #e8e8e8;
+    min-height: 0;
+    height: calc(100vh - 56px - 64px - 160px); /* 헤더, 네비, 바텀시트 제외 */
+  }
+  
+  #kakaoMap {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+  }
+  
+  .map-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    background: #d9d9d9;
+  }
+  
+  .map-locate-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    background: var(--white);
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .map-locate-btn svg {
+    width: 22px;
+    height: 22px;
+    color: var(--gray-700);
+  }
+  
+  /* Map Marker (커스텀 마커 스타일) */
+  .map-marker {
+    width: 56px;
+    height: 64px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .map-marker__circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    overflow: hidden;
+    background: var(--primary);
+  }
+  
+  .map-marker__circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .map-marker::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid var(--primary);
+    margin: 0 auto;
+  }
+  
+  /* Bottom Sheet */
+  .map-bottom-sheet {
+    background: var(--white);
+    border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+    padding: 12px 0 0;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+    z-index: 50;
+  }
+  
+  .sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--gray-300);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+  
+  .sheet-post {
+    display: flex;
+    gap: 14px;
+    padding: 0 16px 20px;
+    cursor: pointer;
+  }
+  
+  .sheet-post__image {
+    width: 90px;
+    height: 90px;
+    border-radius: var(--border-radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  
+  .sheet-post__info {
+    flex: 1;
+  }
+  
+  .sheet-post__title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  
+  .sheet-post__tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .sheet-post__tags span {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .sheet-post__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .sheet-post__location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+  
+  .sheet-post__actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .sheet-post__actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .sheet-post__actions svg {
+    width: 20px;
+    height: 20px;
+  }

@@ -1,0 +1,127 @@
+/* 개인정보 수정 css*/
+
+   .edit-profile-form {
+    padding: 32px 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    flex: 1;
+  }
+  
+  /* 프로필 사진 */
+  .profile-photo-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .profile-photo-circle {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profile-photo-circle img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .photo-edit-btn {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  
+  /* 닉네임 */
+  .edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .edit-field-label {
+    font-size: 13px;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+  
+  .edit-field-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .edit-field-input {
+    flex: 1;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+    background: transparent;
+    padding: 4px 0;
+  }
+  
+  .edit-field-input:focus {
+    outline: none;
+  }
+  
+  .edit-field-input[readonly] {
+    color: var(--gray-800);
+  }
+  
+  .edit-field-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-400);
+    padding: 4px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .edit-field-line {
+    height: 1px;
+    background: var(--gray-300);
+  }
+  
+  /* 학교 선택 */
+  .school-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  
+  .school-btn {
+    height: 56px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--border-radius-md);
+    background: var(--white);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .school-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+  }
+  
+  /* 저장 버튼 */
+  .edit-profile-footer {
+    padding: 20px 28px 40px;
+  }

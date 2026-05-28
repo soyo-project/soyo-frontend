@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOYO - 학교 선택</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/signup.css" />
+</head>
+<body>
+  <div class="page signup-page">
+    <div class="signup-content">
+      <h2 class="signup-title">학교를<br />선택해주세요.</h2>
+      <p class="signup-desc">주소 기반으로 주변 스팟을 추천해드려요.</p>
+
+      <div class="school-grid">
+        <button class="school-btn" data-school="삼육대학교" onclick="selectSchool(this)">
+          삼육대학교
+        </button>
+        <button class="school-btn" data-school="서울여자대학교" onclick="selectSchool(this)">
+          서울여자대학교
+        </button>
+        <!-- 추가 학교 버튼은 동적으로 렌더링 -->
+      </div>
+    </div>
+
+    <div class="signup-footer">
+      <button class="btn-primary" id="nextBtn" disabled onclick="handleSchoolNext()">다음</button>
+    </div>
+  </div>
+
+  <script src="../js/signup-school.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+/* ================================
+   Login Page
+   ================================ */
+ 
+   .login-page {
+    /* global.css의 .page 속성 상속
+       (max-width:430px, min-height:100vh, flex column, white bg) */
+    justify-content: space-between;
+    padding: 0 28px 48px;
+  }
+   
+  /* 로고 영역: 화면 위쪽 절반 차지 */
+  .login-logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 300px; /* 로고가 눌리지 않도록 최소 높이 보장 */
+  }
+   
+  .logo-text {
+    font-size: 68px;
+    font-weight: 900;
+    color: var(--primary);
+    letter-spacing: -2px;
+    line-height: 1;
+    font-style: italic;
+  }
+   
+  .logo-sub {
+    font-size: 15px;
+    color: var(--primary-muted);
+    margin-top: 12px;
+    font-weight: 400;
+    text-align: center;
+  }
+   
+  /* 폼 영역: 아래에 고정 */
+  .login-form-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+   
+  .input-group {
+    width: 100%;
+  }
+   
+  .input-box {
+    width: 100%;
+    height: 56px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--border-radius-md);
+    padding: 0 18px;
+    font-size: 16px;
+    color: var(--gray-800);
+    background: var(--white);
+    transition: border-color 0.2s;
+  }
+   
+  .input-box:focus {
+    border-color: var(--primary);
+  }
+   
+  .input-box::placeholder {
+    color: var(--gray-400);
+  }
+   
+  .login-links {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 4px;
+  }
+   
+  .login-link {
+    font-size: 14px;
+    color: var(--gray-400);
+    text-decoration: none;
+  }
+   
+  .login-link:hover {
+    color: var(--gray-600);
+  }
+   
+  /* 소셜 로그인 구분선 */
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gray-400);
+    font-size: 13px;
+    margin: 4px 0;
+  }
+   
+  .login-divider::before,
+  .login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gray-200);
+  }
+   
+  /* 소셜 로그인 버튼 */
+  .social-login-btn {
+    width: 100%;
+    height: 52px;
+    border-radius: var(--border-radius-full);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+   
+  .social-login-btn:hover {
+    opacity: 0.88;
+  }
+   
+  .social-login-btn.kakao {
+    background: #FEE500;
+    color: #3A1D1D;
+  }
+   

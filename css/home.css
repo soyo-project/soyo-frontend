@@ -1,0 +1,332 @@
+/* ================================
+   Home Page
+   ================================ */
+ 
+   .home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 8px;
+  }
+   
+  .home-logo {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--primary);
+    font-style: italic;
+    letter-spacing: -1px;
+  }
+   
+  .home-header-icons {
+    display: flex;
+    gap: 8px;
+  }
+   
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+   
+  .icon-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+   
+  .home-school-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    padding: 4px 20px 12px;
+  }
+   
+  .home-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: 16px;
+  }
+   
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gray-400);
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+  }
+   
+  .tab-btn.active {
+    color: var(--primary);
+    font-weight: 700;
+  }
+   
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px 2px 0 0;
+  }
+   
+  .home-feed {
+    padding: 0 20px;
+    overflow-y: auto;
+  }
+   
+  /* Post Card */
+  .post-card {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-200);
+  }
+   
+  .post-card__image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+   
+  .post-card__body {
+    padding: 14px 16px 14px;
+  }
+   
+  .post-card__title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--gray-800);
+  }
+   
+  .post-card__tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+   
+  .post-card__tags span {
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 500;
+  }
+   
+  .post-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+   
+  .post-card__location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+   
+  .post-card__location svg {
+    width: 14px;
+    height: 14px;
+  }
+   
+  .post-card__actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+   
+  .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+  }
+   
+  .action-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+   
+  .action-btn.liked svg {
+    fill: var(--red);
+    stroke: var(--red);
+  }
+   
+  .action-btn.saved svg {
+    fill: var(--primary);
+    stroke: var(--primary);
+  }
+   
+  /* ================================
+     Filter Modal
+     ================================ */
+  .filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+   
+  .filter-title {
+    font-size: 17px;
+    font-weight: 700;
+  }
+   
+  .filter-reset {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+  }
+   
+  .filter-section {
+    margin-bottom: 20px;
+  }
+   
+  .filter-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-600);
+    margin-bottom: 12px;
+  }
+   
+  .filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+   
+  .filter-sort-group {
+    display: flex;
+    gap: 8px;
+  }
+   
+  .sort-btn {
+    padding: 8px 18px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--border-radius-full);
+    background: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+   
+  .sort-btn.active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--white);
+    font-weight: 700;
+  }
+   
+  /* 검색 바 (홈 상단) */
+  .search-bar {
+    margin: 0 20px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+   
+  .search-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: var(--gray-100);
+    border-radius: var(--border-radius-full);
+    padding: 10px 16px;
+    gap: 8px;
+  }
+   
+  .search-input-wrap svg {
+    width: 18px;
+    height: 18px;
+    color: var(--gray-400);
+    flex-shrink: 0;
+  }
+   
+  .search-input-wrap input {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--gray-800);
+    width: 100%;
+  }
+   
+  .search-input-wrap input::placeholder {
+    color: var(--gray-400);
+  }
+   
+  .filter-trigger-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gray-300);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--gray-600);
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+   
+  .filter-trigger-btn.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-bg);
+  }
+   
+  /* JS로 동적 생성되는 카드 안 SVG 크기 강제 고정 */
+  .post-card__location svg,
+  .action-btn svg {
+    display: block;
+    flex-shrink: 0;
+  }
+   
+  .post-card__location svg { width: 14px; height: 14px; }
+  .action-btn svg           { width: 22px; height: 22px; }
+   
+  /* 빈 피드 안내 */
+  .feed-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    gap: 16px;
+    color: var(--gray-400);
+    text-align: center;
+  }
+   
+  .feed-empty svg {
+    opacity: 0.4;
+  }
+   
+  .feed-empty p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray-400);
+  }

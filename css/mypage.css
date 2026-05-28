@@ -1,0 +1,209 @@
+/* ================================
+   MyPage
+   ================================ */
+ 
+   .mypage-header {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+   
+  .mypage-icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+   
+  .mypage-icon-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+   
+  /* Profile */
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 20px 20px;
+    gap: 10px;
+  }
+   
+  .profile-avatar-wrap {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+   
+  .profile-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+   
+  .profile-nickname {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+  }
+   
+  .profile-edit-btn {
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--border-radius-full);
+    padding: 6px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-700);
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+   
+  .profile-edit-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+   
+  /* Activity Grid */
+  .activity-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1.5px solid var(--primary);
+    border-radius: var(--border-radius-lg);
+    margin: 0 20px 24px;
+    overflow: hidden;
+  }
+   
+  .activity-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 8px;
+    color: var(--gray-600);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+   
+  .activity-item:hover {
+    background: var(--primary-bg);
+  }
+   
+  .activity-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--primary);
+    fill: var(--primary);
+  }
+   
+  /* Settings List */
+  .settings-list {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+  }
+   
+  .settings-item {
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--gray-800);
+    padding: 18px 0;
+    cursor: pointer;
+    border-bottom: none;
+    transition: color 0.2s;
+  }
+   
+  .settings-item:hover {
+    color: var(--primary);
+  }
+   
+  .settings-divider {
+    height: 1px;
+    background: var(--gray-200);
+    margin: 8px 0;
+  }
+   
+  /* Group Code Modal */
+  .modal-overlay {
+    align-items: center;
+    justify-content: center;
+  }
+   
+  .modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--gray-600);
+  }
+   
+  .modal-box-center {
+    position: relative;
+  }
+   
+  .code-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+   
+  .code-label {
+    font-size: 15px;
+    font-weight: 700;
+  }
+   
+  .code-input-row {
+    display: flex;
+    border: 1.5px solid var(--gray-800);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    align-items: center;
+  }
+   
+  .code-input {
+    flex: 1;
+    border: none;
+    padding: 12px 14px;
+    font-size: 15px;
+    background: transparent;
+    color: var(--gray-800);
+  }
+   
+  .code-copy-btn {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 0 4px 4px 0;
+  }
+   
+  .code-clear-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--gray-500);
+    cursor: pointer;
+    padding: 0 14px;
+  }

@@ -1,0 +1,316 @@
+/* ================================
+   SOYO - Global Styles
+   ================================ */
+ 
+   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+ 
+   :root {
+     --primary: #2DB400;
+     --primary-dark: #229000;
+     --primary-light: #4fd420;
+     --primary-muted: #a8e6a3;
+     --primary-bg: #e8f5e2;
+    
+     --gray-100: #f8f8f8;
+     --gray-200: #eeeeee;
+     --gray-300: #dddddd;
+     --gray-400: #bbbbbb;
+     --gray-500: #999999;
+     --gray-600: #666666;
+     --gray-700: #444444;
+     --gray-800: #222222;
+    
+     --white: #ffffff;
+     --black: #000000;
+    
+     --red: #e74c3c;
+     --bookmark-green: #2DB400;
+    
+     --border-radius-sm: 8px;
+     --border-radius-md: 12px;
+     --border-radius-lg: 16px;
+     --border-radius-xl: 24px;
+     --border-radius-full: 9999px;
+    
+     --shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
+     --shadow-md: 0 2px 12px rgba(0,0,0,0.12);
+     --shadow-lg: 0 4px 24px rgba(0,0,0,0.16);
+    
+     --font-family: 'Noto Sans KR', sans-serif;
+    
+     --bottom-nav-height: 64px;
+     --header-height: 56px;
+    
+     /* 모바일 앱 너비 */
+     --app-width: 430px;
+   }
+    
+   * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     -webkit-tap-highlight-color: transparent;
+   }
+    
+   /* ================================
+      모바일 앱처럼 중앙에 고정된 레이아웃
+      ================================ */
+   html {
+     height: 100%;
+     background: #e8e8e8; /* 앱 바깥 배경 */
+   }
+    
+   body {
+     font-family: var(--font-family);
+     background: #e8e8e8;
+     color: var(--gray-800);
+     font-size: 16px;
+     line-height: 1.5;
+     min-height: 100%;
+     overflow-x: hidden;
+   }
+    
+   /* 앱 래퍼: 모든 .page가 이 안에서 렌더링 */
+   .page {
+     position: relative;
+     width: 100%;
+     max-width: var(--app-width);
+     min-height: 100vh;
+     margin: 0 auto;
+     background: var(--white);
+     display: flex;
+     flex-direction: column;
+     overflow-x: hidden;
+   }
+    
+   .page-with-nav {
+     padding-bottom: var(--bottom-nav-height);
+   }
+    
+   a {
+     text-decoration: none;
+     color: inherit;
+   }
+    
+   button {
+     cursor: pointer;
+     border: none;
+     background: none;
+     font-family: var(--font-family);
+   }
+    
+   input, textarea {
+     font-family: var(--font-family);
+     outline: none;
+   }
+    
+   img {
+     display: block;
+     max-width: 100%;
+   }
+    
+   /* ================================
+      Bottom Navigation
+      ================================ */
+   .bottom-nav {
+     position: fixed;
+     bottom: 0;
+     left: 50%;
+     transform: translateX(-50%);
+     width: 100%;
+     max-width: var(--app-width);
+     height: var(--bottom-nav-height);
+     background: var(--white);
+     border-top: 1px solid var(--gray-200);
+     display: flex;
+     align-items: center;
+     justify-content: space-around;
+     z-index: 100;
+   }
+    
+   .bottom-nav a {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 4px;
+     color: var(--gray-400);
+     font-size: 11px;
+     font-weight: 500;
+     text-decoration: none;
+     padding: 8px 12px;
+     transition: color 0.2s;
+   }
+    
+   .bottom-nav a.active {
+     color: var(--primary);
+   }
+    
+   .bottom-nav a svg {
+     width: 24px;
+     height: 24px;
+   }
+    
+   /* ================================
+      Common Button Styles
+      ================================ */
+   .btn-primary {
+     width: 100%;
+     height: 56px;
+     background: var(--primary);
+     color: var(--white);
+     border: none;
+     border-radius: var(--border-radius-full);
+     font-size: 18px;
+     font-weight: 700;
+     cursor: pointer;
+     transition: background 0.2s, transform 0.1s;
+   }
+    
+   .btn-primary:hover {
+     background: var(--primary-dark);
+   }
+    
+   .btn-primary:active {
+     transform: scale(0.98);
+   }
+    
+   .btn-primary:disabled {
+     background: var(--gray-400);
+     cursor: not-allowed;
+   }
+    
+   /* ================================
+      Common Header
+      ================================ */
+   .page-header {
+     height: var(--header-height);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     position: relative;
+     padding: 0 20px;
+     border-bottom: 1px solid var(--gray-200);
+     background: var(--white);
+   }
+    
+   .page-header .header-title {
+     font-size: 17px;
+     font-weight: 700;
+   }
+    
+   .page-header .header-back {
+     position: absolute;
+     left: 20px;
+     background: none;
+     border: none;
+     cursor: pointer;
+     font-size: 22px;
+     color: var(--gray-700);
+     display: flex;
+     align-items: center;
+   }
+    
+   .page-header .header-action {
+     position: absolute;
+     right: 20px;
+     background: none;
+     border: none;
+     cursor: pointer;
+     font-size: 15px;
+     font-weight: 600;
+     color: var(--gray-700);
+   }
+    
+   /* ================================
+      Tag / Badge
+      ================================ */
+   .tag {
+     display: inline-flex;
+     align-items: center;
+     padding: 6px 16px;
+     border-radius: var(--border-radius-full);
+     font-size: 14px;
+     font-weight: 600;
+     border: 1.5px solid var(--gray-300);
+     background: var(--white);
+     color: var(--gray-700);
+     cursor: pointer;
+     transition: all 0.2s;
+   }
+    
+   .tag.selected {
+     background: var(--primary);
+     border-color: var(--primary);
+     color: var(--white);
+   }
+    
+   /* ================================
+      Modal Overlay
+      ================================ */
+   .modal-overlay {
+     position: fixed;
+     inset: 0;
+     background: rgba(0,0,0,0.45);
+     z-index: 200;
+     display: flex;
+     align-items: flex-end;
+     justify-content: center;
+   }
+    
+   .modal-box {
+     background: var(--white);
+     border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+     width: 100%;
+     max-width: var(--app-width);
+     padding: 24px 20px 40px;
+     animation: slideUp 0.3s ease;
+   }
+    
+   .modal-box-center {
+     background: var(--white);
+     border-radius: var(--border-radius-xl);
+     width: calc(100% - 48px);
+     max-width: 400px;
+     padding: 28px 24px;
+     animation: fadeIn 0.2s ease;
+   }
+    
+   @keyframes slideUp {
+     from { transform: translateY(100%); }
+     to   { transform: translateY(0); }
+   }
+    
+   @keyframes fadeIn {
+     from { opacity: 0; transform: scale(0.95); }
+     to   { opacity: 1; transform: scale(1); }
+   }
+    
+   /* Sheet handle */
+   .sheet-handle {
+     width: 40px;
+     height: 4px;
+     background: var(--gray-300);
+     border-radius: 2px;
+     margin: 0 auto 16px;
+   }
+    
+   /* ================================
+      SVG 크기 안전장치
+      width/height 없는 SVG가 커지는 것 방지
+      ================================ */
+   svg {
+     flex-shrink: 0;
+     /* width/height는 각 SVG에 직접 명시 — 여기서 100%로 늘리지 않음 */
+   }
+    
+   /* 아이콘 버튼 안의 SVG 고정 크기 */
+   .icon-btn svg,
+   .bottom-nav svg,
+   .mypage-icon-btn svg,
+   .post-action-btn svg,
+   .action-btn svg {
+     width: 24px;
+     height: 24px;
+     display: block;
+     flex-shrink: 0;
+   }

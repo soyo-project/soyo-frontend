@@ -1,0 +1,147 @@
+/* ================================
+   Groups Page
+   ================================ */
+
+   .groups-list {
+    padding: 20px 20px;
+    background: var(--gray-100);
+    min-height: calc(100vh - 56px - 64px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 카드 간격 넉넉하게 */
+  }
+  
+  /* 그룹 카드 */
+  .group-card {
+    background: var(--white);
+    border: 2px solid var(--primary);
+    border-radius: var(--border-radius-lg);
+    padding: 20px 20px;
+    height: auto;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  
+  .group-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .group-card__name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+  }
+  
+  .group-code-badge {
+    font-size: 12px;
+    color: var(--gray-400);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+  
+  /* 멤버 아바타 */
+  .group-card__members {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  
+  .group-member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--white);
+    margin-left: -12px;
+    background: var(--gray-200);
+  }
+  
+  .group-member-avatar:first-child {
+    margin-left: 0;
+  }
+  
+  /* + 버튼 */
+  .group-add-btn {
+    background: var(--white);
+    border: 2px solid var(--primary);
+    border-radius: var(--border-radius-lg);
+    min-height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 32px;
+    color: var(--primary);
+  }
+  
+  .group-add-btn:hover {
+    background: var(--primary-bg);
+  }
+  
+  /* 빈 상태 */
+  .feed-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 16px;
+    color: var(--gray-400);
+    text-align: center;
+  }
+  
+  .feed-empty svg { opacity: 0.4; }
+  
+  .feed-empty p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray-400);
+  }
+  
+  /* 코드 확인 모달 */
+  .group-code-modal {
+    background: var(--white);
+    border-radius: var(--border-radius-xl);
+    width: calc(100% - 48px);
+    max-width: 400px;
+    padding: 28px 24px;
+    animation: fadeIn 0.2s ease;
+    position: relative;
+  }
+  
+  .group-code-modal .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .group-code-display {
+    background: var(--primary-bg);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
+  
+  .group-code-copy-btn {
+    width: 100%;
+    height: 48px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-full);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
