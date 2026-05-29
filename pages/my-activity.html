@@ -92,21 +92,44 @@
   </nav>
 
   <script>
+    const BASE_URL = 'http://127.0.0.1:8000';
     function loadActivity() {
-      const posts   = JSON.parse(localStorage.getItem('soyo_posts') || '[]');
-      const savedIds = JSON.parse(localStorage.getItem('soyo_saved') || '[]');
-      const savedPosts = posts.filter(p => savedIds.includes(p.id));
+      const token = localStorage.getItem('token');
 
-      // 통계
-      document.getElementById('statPosts').textContent = posts.length;
-      document.getElementById('statSaved').textContent = savedIds.length;
-      document.getElementById('statLiked').textContent = posts.filter(p => p.liked).length;
+      // 내 게시글
+      fetch(`${BASE_URL}/api/posts/my/posts/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        const posts = data.status === 'success' ? (data.data || []) : [];
+        document.getElementById('statPosts').textContent = posts.length;
+        renderThumbs('myPostsList', posts, '아직 올린 코스가 없어요.');
+      })
+      .catch(() => renderThumbs('myPostsList', [], '아직 올린 코스가 없어요.'));
 
-      // 저장한 코스
-      renderThumbs('savedList', savedPosts, '저장한 코스가 없어요.');
+      // 좋아요한 게시글 (내 활동)
+      fetch(`${BASE_URL}/api/posts/my/likes/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        const posts = data.status === 'success' ? (data.data || []) : [];
+        document.getElementById('statLiked').textContent = posts.length;
+      })
+      .catch(() => {});
 
-      // 내가 올린 코스
-      renderThumbs('myPostsList', posts, '아직 올린 코스가 없어요.');
+      // 북마크한 게시글
+      fetch(`${BASE_URL}/api/posts/bookmarks/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        const posts = data.status === 'success' ? (data.data || []) : [];
+        document.getElementById('statSaved').textContent = posts.length;
+        renderThumbs('savedList', posts, '저장한 코스가 없어요.');
+      })
+      .catch(() => renderThumbs('savedList', [], '저장한 코스가 없어요.'));
     }
 
     function renderThumbs(containerId, posts, emptyMsg) {
@@ -115,13 +138,16 @@
         container.innerHTML = `<p class="activity-empty">${emptyMsg}</p>`;
         return;
       }
-      container.innerHTML = posts.slice(0, 6).map(post => `
-        <div class="activity-thumb" onclick="location.href='post-detail.html?id=${post.id}'">
-          <img src="${post.images?.[0] || post.image || ''}" alt="${post.title}"
-            onerror="this.style.background='var(--gray-200)';this.removeAttribute('src')" />
-          <p>${post.title}</p>
-        </div>
-      `).join('');
+      container.innerHTML = posts.slice(0, 6).map(post => {
+        const id    = post.post_id || post.id;
+        const image = post.images?.[0] || '';
+        return `
+          <div class="activity-thumb" onclick="location.href='post-detail.html?id=${id}'">
+            <img src="${image}" alt="${post.title}"
+              onerror="this.style.background='var(--gray-200)';this.removeAttribute('src')" />
+            <p>${post.title}</p>
+          </div>`;
+      }).join('');
     }
 
     loadActivity();
