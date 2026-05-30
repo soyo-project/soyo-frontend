@@ -172,7 +172,7 @@
    
    function openPostOptions() {
      const user    = JSON.parse(localStorage.getItem('user') || '{}');
-     const isOwner = postData?.author?.id === user.id;
+     const isOwner = String(postData?.author?.user_id) === String(user.id);
      document.getElementById('ownerOptions').style.display = isOwner ? 'block' : 'none';
      document.getElementById('guestOptions').style.display = isOwner ? 'none' : 'block';
      document.getElementById('postOptionsModal').style.display = 'flex';
