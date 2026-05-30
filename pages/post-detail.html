@@ -17,44 +17,45 @@
 
     <!-- 작성자 -->
     <div class="post-author">
-      <img class="post-author__avatar" id="authorAvatar" src="" alt="프로필" />
+      <img class="post-author__avatar" id="authorAvatar" src="" alt="프로필"
+        onerror="this.src='../default-profile.jpeg'" />
       <span class="post-author__name" id="authorName">닉네임</span>
       <button class="post-author__more" onclick="openPostOptions()">
         <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-          <circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>
+          <circle cx="5" cy="12" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="19" cy="12" r="2"/>
         </svg>
       </button>
     </div>
 
     <!-- 이미지 슬라이더 -->
     <div class="post-slider-wrap">
-      <div class="post-slider" id="postSlider">
-        <!-- JS로 이미지 삽입 -->
-      </div>
+      <div class="post-slider" id="postSlider"></div>
       <div class="post-dots" id="postDots"></div>
     </div>
 
     <!-- 액션 버튼 -->
     <div class="post-actions">
       <button class="post-action-btn" id="likeBtn" onclick="toggleLike()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
         </svg>
       </button>
       <button class="post-action-btn" id="saveBtn" onclick="toggleSave()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="19 21 12 16 5 21 5 3 19 3"/>
         </svg>
       </button>
       <button class="post-action-btn" onclick="sharePost()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
           <polyline points="16 6 12 2 8 6"/>
           <line x1="12" y1="2" x2="12" y2="15"/>
         </svg>
       </button>
       <button class="post-action-btn" onclick="sendPost()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="22" y1="2" x2="11" y2="13"/>
           <polygon points="22 2 15 22 11 13 2 9 22 2"/>
         </svg>
@@ -67,7 +68,7 @@
       <div class="post-tags" id="postTags"></div>
       <p class="post-description" id="postDesc"></p>
       <div class="post-location" id="postLocation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
           <circle cx="12" cy="10" r="3"/>
         </svg>
@@ -77,34 +78,46 @@
 
   </div>
 
+  <!-- 하단 네비게이션 -->
   <nav class="bottom-nav">
     <a href="home.html" class="active">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
       홈
     </a>
     <a href="map.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+      </svg>
       지도
     </a>
     <a href="upload.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
       업로드
     </a>
     <a href="calendar.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
       캘린더
     </a>
     <a href="mypage.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
       마이
     </a>
   </nav>
 
-  <script src="../js/post-detail.js"></script>
-</body>
-</html>
-
-  <!-- 게시글 옵션 바텀시트 -->
+  <!-- 게시글 옵션 바텀시트 (body 안에!) -->
   <div class="modal-overlay" id="postOptionsModal" style="display:none;" onclick="closeOptionsModalOutside(event)">
     <div class="options-sheet">
       <div class="sheet-handle"></div>
@@ -118,3 +131,7 @@
       <button class="options-cancel" onclick="closePostOptions()">취소</button>
     </div>
   </div>
+
+  <script src="../js/post-detail.js"></script>
+</body>
+</html>
