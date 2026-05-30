@@ -6,11 +6,13 @@
 
    function loadProfile() {
      const token = localStorage.getItem('token');
-     const user  = JSON.parse(localStorage.getItem('user') || '{}');
    
+     // localStorage 값 먼저 표시 (빠른 초기 렌더)
+     const user = JSON.parse(localStorage.getItem('user') || '{}');
      if (user.nickname) document.getElementById('profileNickname').textContent = user.nickname;
      if (user.avatar)   document.getElementById('profileAvatar').src = user.avatar;
    
+     // API에서 최신값 가져와서 덮어쓰기
      fetch(`${BASE_URL}/api/auth/me/`, {
        headers: { Authorization: `Bearer ${token}` }
      })
@@ -18,13 +20,25 @@
      .then(data => {
        if (data.status === 'success') {
          const u = data.data;
+   
+         // 화면 즉시 업데이트 (API 최신값 우선)
          document.getElementById('profileNickname').textContent = u.nickname || '닉네임';
-         if (u.profile_image) document.getElementById('profileAvatar').src = u.profile_image;
+   
+         // 프로필 이미지: 상대경로면 베이스 URL 붙이기
+         if (u.profile_image) {
+           const imgUrl = u.profile_image.startsWith('http')
+             ? u.profile_image
+             : `${BASE_URL}${u.profile_image}`;
+           document.getElementById('profileAvatar').src = imgUrl;
+           user.avatar = imgUrl;
+         }
+   
+         // localStorage 최신값으로 갱신
          localStorage.setItem('user', JSON.stringify({
            ...user,
+           id:       u.user_id,
            nickname: u.nickname,
            school:   u.school,
-           avatar:   u.profile_image
          }));
        }
      })

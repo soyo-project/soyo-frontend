@@ -8,7 +8,7 @@
      const list = document.getElementById('groupsList');
    
      const cards = (groups || []).map(g => `
-       <div class="group-card" onclick="showGroupCode('${g.name}', '${g.code}')">
+       <div class="group-card" onclick="goGroupFeed(${g.group_id || g.id}, '${g.name}', '${g.code}')">
          <div>
            <div class="group-card__name">${g.name}</div>
            <div class="group-code-badge">코드: ${g.code}</div>
@@ -39,6 +39,11 @@
        <button class="group-add-btn" onclick="openJoinModal()">+</button>`;
    
      list.innerHTML = emptyMsg + cards + addBtn;
+   }
+   
+   /* 그룹 피드로 이동 */
+   function goGroupFeed(groupId, name, code) {
+     window.location.href = `group-feed.html?id=${groupId}&name=${encodeURIComponent(name)}&code=${encodeURIComponent(code)}`;
    }
    
    function showGroupCode(name, code) {

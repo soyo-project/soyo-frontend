@@ -80,7 +80,12 @@
          const user = JSON.parse(localStorage.getItem('user') || '{}');
          user.nickname = nickname;
          user.school   = selectedSchool;
-         if (data.data?.profile_image) user.avatar = data.data.profile_image;
+         // 프로필 이미지: 상대경로면 베이스 URL 붙이기
+         if (data.data?.profile_image) {
+           user.avatar = data.data.profile_image.startsWith('http')
+             ? data.data.profile_image
+             : `${BASE_URL}${data.data.profile_image}`;
+         }
          localStorage.setItem('user', JSON.stringify(user));
          showToast('저장되었습니다!', 'success');
          setTimeout(() => history.back(), 800);

@@ -99,7 +99,69 @@
      }
    }
    
-   function sendPost() { /* TODO */ }
+   function sendPost() {
+     // 내 그룹 목록 가져와서 선택 모달 띄우기
+     const token = localStorage.getItem('token');
+     fetch(`${BASE_URL}/api/groups/me/`, {
+       headers: { Authorization: `Bearer ${token}` }
+     })
+     .then(res => res.json())
+     .then(data => {
+       const groups = data.status === 'success' ? (data.data || []) : [];
+       if (groups.length === 0) {
+         alert('참여 중인 그룹이 없어요!');
+         return;
+       }
+       showGroupShareModal(groups);
+     })
+     .catch(() => alert('그룹 목록을 불러오지 못했습니다.'));
+   }
+   
+   function showGroupShareModal(groups) {
+     const existing = document.getElementById('groupShareModal');
+     if (existing) existing.remove();
+   
+     const overlay = document.createElement('div');
+     overlay.id = 'groupShareModal';
+     overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:flex-end;justify-content:center;';
+     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+   
+     overlay.innerHTML = `
+       <div style="background:white;border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:24px 20px 40px;">
+         <div style="width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px;"></div>
+         <div style="font-size:17px;font-weight:700;margin-bottom:16px;">그룹에 공유하기</div>
+         ${groups.map(g => `
+           <button onclick="shareToGroup(${g.group_id || g.id}, '${g.name}')"
+             style="width:100%;padding:16px;border:1.5px solid #2DB400;border-radius:12px;background:white;
+                    font-size:15px;font-weight:600;color:#222;cursor:pointer;margin-bottom:10px;text-align:left;">
+             ${g.name}
+           </button>`).join('')}
+       </div>`;
+   
+     document.body.appendChild(overlay);
+   }
+   
+   function shareToGroup(groupId, groupName) {
+     const token = localStorage.getItem('token');
+     fetch(`${BASE_URL}/api/groups/${groupId}/posts/`, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+         Authorization: `Bearer ${token}`
+       },
+       body: JSON.stringify({ post_id: postId })
+     })
+     .then(res => res.json())
+     .then(data => {
+       document.getElementById('groupShareModal')?.remove();
+       if (data.status === 'success') {
+         alert(`'${groupName}'에 공유되었습니다!`);
+       } else {
+         alert(data.message || '공유에 실패했습니다.');
+       }
+     })
+     .catch(() => alert('공유에 실패했습니다.'));
+   }
    
    function openPostOptions() {
      const user    = JSON.parse(localStorage.getItem('user') || '{}');

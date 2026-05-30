@@ -33,7 +33,7 @@
    
    /* 태그 목록 조회 */
    function loadTags() {
-     fetch(`${BASE_URL}/api/tags/`)
+     fetch(`${BASE_URL}/api/posts/tags/`)
      .then(res => res.json())
      .then(data => {
        if (data.status === 'success' && data.data?.length > 0) {
