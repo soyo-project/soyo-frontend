@@ -7,6 +7,13 @@
    let currentMonth = new Date().getMonth();
    let postsByDate  = {};
    
+   /* 이미지 경로 변환: /media/... → http://127.0.0.1:8000/media/... */
+   function imgUrl(url) {
+     if (!url) return '';
+     return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+   }
+   
+   
    function changeMonth(delta) {
      currentMonth += delta;
      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
@@ -28,7 +35,7 @@
            const date = (post.created_at || '').substring(0, 10);
            if (!date) return;
            if (!postsByDate[date]) postsByDate[date] = [];
-           postsByDate[date].push({ image: post.images?.[0] || '' });
+           postsByDate[date].push({ image: imgUrl(post.images?.[0] || '') });
          });
        }
        renderCalendar();
@@ -91,7 +98,7 @@
    
        document.getElementById('calSlider').innerHTML = posts.map(p => `
          <div class="cal-slide">
-           <img src="${p.images?.[0] || ''}" alt="post"
+           <img src="${imgUrl(p.images?.[0] || '')}" alt="post"
              onerror="this.style.background='var(--gray-200)'" />
          </div>`).join('');
    

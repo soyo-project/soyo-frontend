@@ -3,6 +3,13 @@
    ================================ */
 
    const BASE_URL = 'http://127.0.0.1:8000';
+
+   /* 이미지 경로 변환: /media/... → http://127.0.0.1:8000/media/... */
+   function imgUrl(url) {
+     if (!url) return '';
+     return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+   }
+   
    const DEFAULT_PROFILE = '../default-profile.jpeg';
    let selectedSchool = '';
    let newImageFile   = null;
@@ -17,7 +24,7 @@
        if (data.status === 'success') {
          const u = data.data;
          document.getElementById('nicknameInput').value = u.nickname || '';
-         if (u.profile_image) document.getElementById('profilePreview').src = u.profile_image;
+         if (u.profile_image) document.getElementById('profilePreview').src = imgUrl(u.profile_image);
          selectedSchool = u.school || '삼육대학교';
          document.querySelectorAll('.school-btn').forEach(btn => {
            btn.classList.toggle('active', btn.dataset.school === selectedSchool);

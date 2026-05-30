@@ -5,6 +5,13 @@
    const BASE_URL = 'http://127.0.0.1:8000';
    let currentTab = '추천';
    
+   /* 이미지 경로 변환: /media/... → http://127.0.0.1:8000/media/... */
+   function imgUrl(url) {
+     if (!url) return '';
+     return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+   }
+   
+   
    // ================================
    // 저장(북마크) 토글
    // ================================
@@ -100,7 +107,7 @@
    function createPostCard(post) {
      const saved = isSaved(post.post_id || post.id);
      const liked = post.is_liked || false;
-     const image = (post.images && post.images[0]) ? post.images[0] : '';
+     const image = imgUrl(post.images && post.images[0] ? post.images[0] : '');
      const tags  = post.tags || [];
      const location = post.start_location || post.location || '';
    
@@ -147,23 +154,35 @@
    // ================================
    function toggleLike(e, postId) {
      e.stopPropagation();
-     const token = localStorage.getItem('token');
+     const token  = localStorage.getItem('token');
+     const btn    = e.currentTarget;
+     const svg    = btn.querySelector('svg');
+     const isLiked = btn.classList.contains('liked');
+   
+     // UI 즉시 반영 (낙관적 업데이트)
+     btn.classList.toggle('liked');
+     svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
+     svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
+   
      fetch(`${BASE_URL}/api/posts/${postId}/likes/`, {
        method: 'POST',
        headers: { Authorization: `Bearer ${token}` }
      })
      .then(res => res.json())
      .then(data => {
-       if (data.status === 'success') {
-         const btn = e.currentTarget;
+       if (data.status !== 'success') {
+         // 실패 시 원래대로 되돌리기
          btn.classList.toggle('liked');
-         const svg    = btn.querySelector('svg');
-         const isLiked = btn.classList.contains('liked');
          svg.setAttribute('fill',   isLiked ? '#e74c3c' : 'none');
          svg.setAttribute('stroke', isLiked ? '#e74c3c' : '#bbb');
        }
      })
-     .catch(() => {});
+     .catch(() => {
+       // 네트워크 오류 시 원래대로
+       btn.classList.toggle('liked');
+       svg.setAttribute('fill',   isLiked ? '#e74c3c' : 'none');
+       svg.setAttribute('stroke', isLiked ? '#e74c3c' : '#bbb');
+     });
    }
    
    // ================================
@@ -171,7 +190,16 @@
    // ================================
    function toggleSave(e, postId) {
      e.stopPropagation();
-     const token = localStorage.getItem('token');
+     const token   = localStorage.getItem('token');
+     const btn     = e.currentTarget;
+     const svg     = btn.querySelector('svg');
+     const isSaved = btn.classList.contains('saved');
+   
+     // UI 즉시 반영 (낙관적 업데이트)
+     btn.classList.toggle('saved');
+     svg.setAttribute('fill',   !isSaved ? '#2DB400' : 'none');
+     svg.setAttribute('stroke', !isSaved ? '#2DB400' : '#bbb');
+   
      fetch(`${BASE_URL}/api/posts/${postId}/bookmarks/`, {
        method: 'POST',
        headers: { Authorization: `Bearer ${token}` }
@@ -179,16 +207,20 @@
      .then(res => res.json())
      .then(data => {
        if (data.status === 'success') {
-         const btn     = e.currentTarget;
-         const nowSaved = toggleSavedId(postId);
-         btn.classList.toggle('saved', nowSaved);
-         const svg = btn.querySelector('svg');
-         svg.setAttribute('fill',   nowSaved ? '#2DB400' : 'none');
-         svg.setAttribute('stroke', nowSaved ? '#2DB400' : '#bbb');
+         toggleSavedId(postId);
          if (currentTab === '저장') loadFeed('저장');
+       } else {
+         // 실패 시 원래대로
+         btn.classList.toggle('saved');
+         svg.setAttribute('fill',   isSaved ? '#2DB400' : 'none');
+         svg.setAttribute('stroke', isSaved ? '#2DB400' : '#bbb');
        }
      })
-     .catch(() => {});
+     .catch(() => {
+       btn.classList.toggle('saved');
+       svg.setAttribute('fill',   isSaved ? '#2DB400' : 'none');
+       svg.setAttribute('stroke', isSaved ? '#2DB400' : '#bbb');
+     });
    }
    
    function goPostDetail(postId) {
@@ -201,6 +233,11 @@
    const user = JSON.parse(localStorage.getItem('user') || '{}');
    if (user.school) document.getElementById('schoolName').textContent = user.school;
    loadFeed(currentTab);
+   
+   // 페이지 포커스 시 피드 새로고침 (게시글 상세에서 돌아왔을 때 상태 반영)
+   window.addEventListener('pageshow', (e) => {
+     if (e.persisted) loadFeed(currentTab);
+   });
    
    /* ================================
       필터 & 검색

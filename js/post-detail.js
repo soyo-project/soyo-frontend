@@ -7,16 +7,23 @@
    const postId = params.get('id');
    let postData = null;
    
+   /* 이미지 경로 변환: /media/... → http://127.0.0.1:8000/media/... */
+   function imgUrl(url) {
+     if (!url) return '';
+     return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+   }
+   
+   
    function renderPost(post) {
      postData = post;
-     const avatar = post.author?.profile_image || '../default-profile.jpeg';
+     const avatar = imgUrl(post.author?.profile_image) || '../default-profile.jpeg';
      document.getElementById('authorAvatar').src = avatar;
      document.getElementById('authorName').textContent = post.author?.nickname || '닉네임';
    
      const slider = document.getElementById('postSlider');
      const images = post.images || [];
      slider.innerHTML = images.map(img => `
-       <div class="post-slide"><img src="${img}" alt="post" /></div>`).join('');
+       <div class="post-slide"><img src="${imgUrl(img)}" alt="post" /></div>`).join('');
    
      const dots = document.getElementById('postDots');
      dots.innerHTML = images.map((_, i) =>

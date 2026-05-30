@@ -4,6 +4,13 @@
 
    const BASE_URL = 'http://127.0.0.1:8000';
 
+   /* 이미지 경로 변환: /media/... → http://127.0.0.1:8000/media/... */
+   function imgUrl(url) {
+     if (!url) return '';
+     return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+   }
+   
+   
    function renderGroups(groups) {
      const list = document.getElementById('groupsList');
    
@@ -17,7 +24,7 @@
            ${(g.members && g.members.length > 0)
              ? g.members.slice(0, 4).map(m => `
                  <img class="group-member-avatar"
-                   src="${m.profile_image || '../default-profile.jpeg'}"
+                   src="${imgUrl(m.profile_image) || '../default-profile.jpeg'}"
                    alt="${m.nickname || '멤버'}"
                    onerror="this.src='../default-profile.jpeg'" />`).join('')
              : `<div style="width:40px;height:40px;border-radius:50%;background:var(--primary-bg);

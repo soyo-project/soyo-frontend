@@ -3,6 +3,13 @@
    ================================ */
 
    const BASE_URL = 'http://127.0.0.1:8000';
+
+   /* 이미지 경로 변환: /media/... → http://127.0.0.1:8000/media/... */
+   function imgUrl(url) {
+     if (!url) return '';
+     return url.startsWith('http') ? url : `${BASE_URL}${url}`;
+   }
+   
    const params    = new URLSearchParams(window.location.search);
    const groupId   = params.get('id');
    const groupName = decodeURIComponent(params.get('name') || '그룹 피드');
@@ -46,7 +53,7 @@
      }
      container.innerHTML = members.slice(0, 5).map(m => `
        <img class="group-feed-avatar"
-         src="${m.profile_image ? (m.profile_image.startsWith('http') ? m.profile_image : BASE_URL + m.profile_image) : '../default-profile.jpeg'}"
+         src="${imgUrl(m.profile_image) || '../default-profile.jpeg'}"
          alt="${m.nickname || '멤버'}"
          onerror="this.src='../default-profile.jpeg'" />
      `).join('');
@@ -69,7 +76,7 @@
    
      feed.innerHTML = posts.map(post => {
        const id    = post.post_id || post.id;
-       const image = post.images?.[0] || '';
+       const image = imgUrl(post.images?.[0] || '');
        const tags  = post.tags || [];
    
        return `
