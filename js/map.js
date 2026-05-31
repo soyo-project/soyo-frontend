@@ -99,6 +99,13 @@
    function toggleLikeMap(e, postId) {
      e.stopPropagation();
      const token = localStorage.getItem('token');
+     const svg = e.currentTarget.querySelector('svg');
+     const isLiked = svg.getAttribute('fill') !== 'none';
+    
+     // UI 즉시 반영
+     svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
+     svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
+
      fetch(`${BASE_URL}/api/posts/${postId}/likes/`, {
        method: 'POST',
        headers: { Authorization: `Bearer ${token}` }
@@ -106,8 +113,6 @@
      .then(res => res.json())
      .then(data => {
        if (data.status === 'success') {
-         const svg    = e.currentTarget.querySelector('svg');
-         const isLiked = svg.getAttribute('fill') !== 'none';
          svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
          svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
        }
@@ -117,6 +122,13 @@
    function toggleSaveMap(e, postId) {
      e.stopPropagation();
      const token = localStorage.getItem('token');
+     const svg = e.currentTarget.querySelector('svg');
+     const isLiked = svg.getAttribute('fill') !== 'none';
+    
+     // UI 즉시 반영
+     svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
+     svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
+     
      fetch(`${BASE_URL}/api/posts/${postId}/bookmarks/`, {
        method: 'POST',
        headers: { Authorization: `Bearer ${token}` }
@@ -124,8 +136,6 @@
      .then(res => res.json())
      .then(data => {
        if (data.status === 'success') {
-         const svg    = e.currentTarget.querySelector('svg');
-         const isSaved = svg.getAttribute('fill') !== 'none';
          svg.setAttribute('fill',   !isSaved ? '#2DB400' : 'none');
          svg.setAttribute('stroke', !isSaved ? '#2DB400' : '#bbb');
        }

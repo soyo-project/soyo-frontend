@@ -95,7 +95,7 @@
          }
          localStorage.setItem('user', JSON.stringify(user));
          showToast('저장되었습니다!', 'success');
-         setTimeout(() => history.back(), 800);
+         setTimeout(() => window.location.href = 'mypage.html', 800);
        } else {
          showToast(data.message || '저장에 실패했습니다.', 'error');
        }

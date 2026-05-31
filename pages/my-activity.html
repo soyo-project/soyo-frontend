@@ -41,6 +41,14 @@
       </div>
       <div class="activity-scroll" id="savedList"></div>
     </section>
+    
+    <!-- 좋아요한 게시글 -->
+    <section class="activity-section">
+      <div class="activity-section-header">
+        <span class="activity-section-title">좋아요한 코스</span>
+      </div>
+      <div class="activity-scroll" id="likedList"></div>
+    </section>
 
     <!-- 내가 올린 게시글 -->
     <section class="activity-section">
@@ -116,9 +124,10 @@
       .then(data => {
         const posts = data.status === 'success' ? (data.data || []) : [];
         document.getElementById('statLiked').textContent = posts.length;
-      })
-      .catch(() => {});
-
+        renderThumbs('likedList', posts, '좋아요한 코스가 없어요.');
+        })
+      .catch(() => renderThumbs('likedList', [], '좋아요한 코스가 없어요.'));
+      
       // 북마크한 게시글
       fetch(`${BASE_URL}/api/posts/bookmarks/`, {
         headers: { Authorization: `Bearer ${token}` }
