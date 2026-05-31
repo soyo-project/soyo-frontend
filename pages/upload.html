@@ -9,15 +9,15 @@
 </head>
 <body>
   <div class="page">
- 
+
     <header class="page-header">
       <button class="header-back" onclick="history.back()">‹</button>
       <span class="header-title">게시글 작성</span>
       <button class="header-action" id="submitBtn" onclick="submitPost()">등록</button>
     </header>
- 
+
     <main class="upload-form">
- 
+
       <!-- 사진 선택 -->
       <section class="upload-section">
         <label class="section-label">사진 선택 <span class="section-sub">(최대 5장)</span></label>
@@ -31,19 +31,19 @@
           </label>
         </div>
       </section>
- 
+
       <!-- 코스 제목 -->
       <section class="upload-section">
         <label class="section-label" for="courseTitle">코스 제목 <span class="required">*</span></label>
         <input type="text" id="courseTitle" class="text-input" placeholder="코스 제목을 입력하세요" maxlength="50" />
       </section>
- 
+
       <!-- 내용 -->
       <section class="upload-section">
         <label class="section-label" for="content">내용</label>
         <textarea id="content" class="text-input textarea" placeholder="코스에 대해 설명해주세요" rows="3" maxlength="500"></textarea>
       </section>
- 
+
       <!-- 분위기 태그 -->
       <section class="upload-section">
         <label class="section-label">분위기 태그 <span class="section-sub">(최대 5개)</span></label>
@@ -55,7 +55,7 @@
           </svg>
         </button>
       </section>
- 
+
       <!-- 거리 & 소요시간 -->
       <section class="upload-section">
         <label class="section-label">코스 정보</label>
@@ -70,7 +70,7 @@
           </div>
         </div>
       </section>
- 
+
       <!-- 출발지 & 도착지 -->
       <section class="upload-section">
         <label class="section-label">경로</label>
@@ -86,7 +86,7 @@
           </div>
         </div>
       </section>
- 
+
       <!-- 공개 범위 -->
       <section class="upload-section">
         <label class="section-label">공개 범위</label>
@@ -115,7 +115,7 @@
           </button>
         </div>
       </section>
- 
+
       <!-- 장소 선택 (카카오맵) -->
       <section class="upload-section">
         <label class="section-label">장소 선택</label>
@@ -132,10 +132,10 @@
           <button onclick="clearLocation()">×</button>
         </div>
       </section>
- 
+
     </main>
   </div>
- 
+
   <!-- 태그 선택 모달 -->
   <div class="modal-overlay" id="tagModal" style="display:none;" onclick="closeTagModalOutside(event)">
     <div class="modal-box" id="tagModalBox">
@@ -146,7 +146,7 @@
       <div class="tag-grid" id="tagGrid"></div>
     </div>
   </div>
- 
+
   <!-- 카카오맵 SDK (API 키 교체 필요) -->
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ff01bdc7b82041795e74de1d32a3287e&libraries=services"></script>
   <script src="../js/upload.js"></script>

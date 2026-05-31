@@ -234,9 +234,10 @@
    if (user.school) document.getElementById('schoolName').textContent = user.school;
    loadFeed(currentTab);
    
-   // 페이지 포커스 시 피드 새로고침 (게시글 상세에서 돌아왔을 때 상태 반영)
-   window.addEventListener('pageshow', (e) => {
-     if (e.persisted) loadFeed(currentTab);
+   // 페이지 복귀 시 피드 새로고침 (좋아요/북마크 상태 동기화)
+   window.addEventListener('pageshow', () => loadFeed(currentTab));
+   document.addEventListener('visibilitychange', () => {
+     if (document.visibilityState === 'visible') loadFeed(currentTab);
    });
    
    /* ================================

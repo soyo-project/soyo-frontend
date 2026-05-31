@@ -82,7 +82,6 @@
    }
    
    function selectDate(dateStr) {
-     // 날짜별 게시글 조회
      const token = localStorage.getItem('token');
      fetch(`${BASE_URL}/api/posts/?date=${dateStr}`, {
        headers: { Authorization: `Bearer ${token}` }
@@ -92,19 +91,31 @@
        const posts = data.status === 'success' ? (data.data || []) : [];
        if (posts.length === 0) return;
    
+       // 각 게시글의 모든 이미지를 하나의 슬라이드 목록으로 펼치기
+       const slides = [];
+       posts.forEach(p => {
+         const images = p.images || [];
+         if (images.length === 0) {
+           slides.push({ image: '', postId: p.post_id || p.id });
+         } else {
+           images.forEach(img => slides.push({ image: imgUrl(img), postId: p.post_id || p.id }));
+         }
+       });
+   
        const detail = document.getElementById('calDetail');
        detail.style.display = 'flex';
        detail.style.flexDirection = 'column';
    
-       document.getElementById('calSlider').innerHTML = posts.map(p => `
-         <div class="cal-slide">
-           <img src="${imgUrl(p.images?.[0] || '')}" alt="post"
+       const slider = document.getElementById('calSlider');
+       slider.innerHTML = slides.map(s => `
+         <div class="cal-slide" onclick="location.href='post-detail.html?id=${s.postId}'" style="cursor:pointer;">
+           <img src="${s.image}" alt="post"
              onerror="this.style.background='var(--gray-200)'" />
          </div>`).join('');
    
-       renderDots(posts.length);
+       renderDots(slides.length);
    
-       document.getElementById('calSlider').onscroll = function() {
+       slider.onscroll = function() {
          const idx = Math.round(this.scrollLeft / this.offsetWidth);
          updateDots(idx);
        };

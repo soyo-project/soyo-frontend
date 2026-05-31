@@ -23,11 +23,30 @@
    const editPostId = editParams.get('edit');
    
    window.addEventListener('DOMContentLoaded', () => {
-     initMap();
      loadTags();
      if (editPostId) {
        document.querySelector('.header-title').textContent = '게시글 수정';
        loadEditData(editPostId);
+     }
+     // 카카오맵 SDK 로드 후 초기화
+     if (typeof kakao !== 'undefined' && kakao.maps) {
+       kakao.maps.load(initMap);
+     } else {
+       // SDK 스크립트 로드 완료 후 실행
+       window.addEventListener('load', () => {
+         if (typeof kakao !== 'undefined' && kakao.maps) {
+           kakao.maps.load(initMap);
+         } else {
+           document.getElementById('locationMap').innerHTML = `
+             <div class="map-unavailable">
+               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                 <circle cx="12" cy="10" r="3"/>
+               </svg>
+               <p>지도를 불러올 수 없어요.<br>잠시 후 다시 시도해주세요.</p>
+             </div>`;
+         }
+       });
      }
    });
    
@@ -38,25 +57,17 @@
      .then(data => {
        if (data.status === 'success' && data.data?.length > 0) {
          ALL_TAGS.length = 0;
-         data.data.forEach(t => ALL_TAGS.push(t.name || t));
+         // 태그 전체 표시 (name 또는 string 형태 모두 처리)
+         data.data.forEach(t => ALL_TAGS.push(typeof t === 'string' ? t : (t.name || t.tag || String(t))));
        }
      })
-     .catch(() => {});
+     .catch(() => {
+       // API 실패 시 기본 태그 유지
+     });
    }
    
    /* 카카오맵 초기화 */
    function initMap() {
-     if (typeof kakao === 'undefined' || !kakao.maps) {
-       document.getElementById('locationMap').innerHTML = `
-         <div class="map-unavailable">
-           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-             <circle cx="12" cy="10" r="3"/>
-           </svg>
-           <p>upload.html의 YOUR_KAKAO_API_KEY를<br>발급받은 키로 교체해주세요</p>
-         </div>`;
-       return;
-     }
      const container = document.getElementById('locationMap');
      const options   = { center: new kakao.maps.LatLng(37.5665, 126.9780), level: 4 };
      kakaoMap = new kakao.maps.Map(container, options);
@@ -166,7 +177,7 @@
      if (selectedTags.includes(tag)) {
        selectedTags = selectedTags.filter(t => t !== tag);
      } else {
-       if (selectedTags.length >= 5) { showToast('태그는 최대 5개까지 선택할 수 있습니다.', 'error'); return; }
+       if (selectedTags.length >= 5) { showToast('태그는 최대 5개까지 선택할 수 있습니다.', 'error'); return; } // 선택은 5개 제한
        selectedTags.push(tag);
      }
      renderTagGrid();
