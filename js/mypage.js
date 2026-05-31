@@ -166,3 +166,9 @@
    function goNotice()       { /* TODO */ }
    
    loadProfile();
+   
+   // 프로필 수정 후 돌아왔을 때 즉시 갱신
+   window.addEventListener('pageshow', () => loadProfile());
+   document.addEventListener('visibilitychange', () => {
+     if (document.visibilityState === 'visible') loadProfile();
+   });
