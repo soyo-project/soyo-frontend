@@ -51,20 +51,17 @@
    });
    
    /* 태그 목록 조회 */
-   function loadTags() {
-     fetch(`${BASE_URL}/api/posts/tags/`)
-     .then(res => res.json())
-     .then(data => {
-       if (data.status === 'success' && data.data?.length > 0) {
-         ALL_TAGS.length = 0;
-         // 태그 전체 표시 (name 또는 string 형태 모두 처리)
-         data.data.forEach(t => ALL_TAGS.push(typeof t === 'string' ? t : (t.name || t.tag || String(t))));
-       }
-     })
-     .catch(() => {
-       // API 실패 시 기본 태그 유지
-     });
-   }
+    function loadTags() {
+        return fetch(`${BASE_URL}/api/posts/tags/`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success' && data.data?.length > 0) {
+                ALL_TAGS.length = 0;
+                data.data.forEach(t => ALL_TAGS.push(typeof t === 'string' ? t : (t.name || t.tag || String(t))));
+            }
+        })
+        .catch(() => {});
+    } 
    
    /* 카카오맵 초기화 */
    function initMap() {
@@ -153,10 +150,17 @@
    }
    
    /* 태그 */
-   function openTagModal() {
-     renderTagGrid();
-     document.getElementById('tagModal').style.display = 'flex';
-   }
+    function openTagModal() {
+      if (ALL_TAGS.length === 0) {
+          loadTags().then(() => {
+              renderTagGrid();
+              document.getElementById('tagModal').style.display = 'flex';
+          });
+      } else {
+          renderTagGrid();
+          document.getElementById('tagModal').style.display = 'flex';
+      }
+    }
    
    function closeTagModal() {
      document.getElementById('tagModal').style.display = 'none';
@@ -239,7 +243,10 @@
          formData.append('latitude',  selectedLocation.latitude);
          formData.append('longitude', selectedLocation.longitude);
        }
-       selectedPhotos.forEach(p => { if (p.file) formData.append('images', p.file); });
+       selectedPhotos.forEach(p => {
+         if (p.file) formData.append('images', p.file);        
+         else formData.append('existing_images', p.url);       
+       });
    
        const url    = editPostId ? `${BASE_URL}/api/posts/${editPostId}/` : `${BASE_URL}/api/posts/`;
        const method = editPostId ? 'PATCH' : 'POST';

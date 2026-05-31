@@ -26,9 +26,9 @@
      }
    }
    
-   function isSaved(postId) {
-     return JSON.parse(localStorage.getItem('soyo_saved') || '[]').includes(postId);
-   }
+    function isSaved(postId) {
+      return JSON.parse(localStorage.getItem('soyo_saved') || '[]').includes(postId);
+    }
    
    // ================================
    // 탭 전환
@@ -105,7 +105,7 @@
    // 포스트 카드 생성
    // ================================
    function createPostCard(post) {
-     const saved = isSaved(post.post_id || post.id);
+     const saved = post.is_bookmarked || false;
      const liked = post.is_liked || false;
      const image = imgUrl(post.images && post.images[0] ? post.images[0] : '');
      const tags  = post.tags || [];
