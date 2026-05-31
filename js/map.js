@@ -98,6 +98,7 @@
    
    function toggleLikeMap(e, postId) {
      e.stopPropagation();
+<<<<<<< HEAD
      const token = localStorage.getItem('token');
      const svg = e.currentTarget.querySelector('svg');
      const isLiked = svg.getAttribute('fill') !== 'none';
@@ -106,21 +107,44 @@
      svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
      svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
 
+=======
+     const token   = localStorage.getItem('token');
+     const btn     = e.currentTarget;
+     const svg     = btn.querySelector('svg');
+     const isLiked = svg.getAttribute('fill') !== 'none';
+   
+     // 즉시 UI 반영
+     svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
+     svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
+   
+>>>>>>> 4083cbe6eef31bce967e7d7c7fc8e0de605bc44e
      fetch(`${BASE_URL}/api/posts/${postId}/likes/`, {
        method: 'POST',
        headers: { Authorization: `Bearer ${token}` }
      })
      .then(res => res.json())
      .then(data => {
+<<<<<<< HEAD
        if (data.status === 'success') {
          svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
          svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
+=======
+       if (data.status !== 'success') {
+         // 실패 시 되돌리기
+         svg.setAttribute('fill',   isLiked ? '#e74c3c' : 'none');
+         svg.setAttribute('stroke', isLiked ? '#e74c3c' : '#bbb');
+>>>>>>> 4083cbe6eef31bce967e7d7c7fc8e0de605bc44e
        }
-     }).catch(() => {});
+     })
+     .catch(() => {
+       svg.setAttribute('fill',   isLiked ? '#e74c3c' : 'none');
+       svg.setAttribute('stroke', isLiked ? '#e74c3c' : '#bbb');
+     });
    }
    
    function toggleSaveMap(e, postId) {
      e.stopPropagation();
+<<<<<<< HEAD
      const token = localStorage.getItem('token');
      const svg = e.currentTarget.querySelector('svg');
      const isLiked = svg.getAttribute('fill') !== 'none';
@@ -129,17 +153,38 @@
      svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
      svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
      
+=======
+     const token   = localStorage.getItem('token');
+     const btn     = e.currentTarget;
+     const svg     = btn.querySelector('svg');
+     const isSaved = svg.getAttribute('fill') !== 'none';
+   
+     // 즉시 UI 반영
+     svg.setAttribute('fill',   !isSaved ? '#2DB400' : 'none');
+     svg.setAttribute('stroke', !isSaved ? '#2DB400' : '#bbb');
+   
+>>>>>>> 4083cbe6eef31bce967e7d7c7fc8e0de605bc44e
      fetch(`${BASE_URL}/api/posts/${postId}/bookmarks/`, {
        method: 'POST',
        headers: { Authorization: `Bearer ${token}` }
      })
      .then(res => res.json())
      .then(data => {
+<<<<<<< HEAD
        if (data.status === 'success') {
          svg.setAttribute('fill',   !isSaved ? '#2DB400' : 'none');
          svg.setAttribute('stroke', !isSaved ? '#2DB400' : '#bbb');
+=======
+       if (data.status !== 'success') {
+         svg.setAttribute('fill',   isSaved ? '#2DB400' : 'none');
+         svg.setAttribute('stroke', isSaved ? '#2DB400' : '#bbb');
+>>>>>>> 4083cbe6eef31bce967e7d7c7fc8e0de605bc44e
        }
-     }).catch(() => {});
+     })
+     .catch(() => {
+       svg.setAttribute('fill',   isSaved ? '#2DB400' : 'none');
+       svg.setAttribute('stroke', isSaved ? '#2DB400' : '#bbb');
+     });
    }
    
    if (typeof kakao !== 'undefined' && kakao.maps) {
