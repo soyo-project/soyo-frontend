@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=280&section=header&text=SOYO%20🌿&fontSize=70&fontColor=ffffff&animation=fadeIn&desc=정처%20없이%20천천히%20거닐며%20여유를%20즐기다&descSize=22&fontAlignY=45&descAlignY=63)
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,3,14,18&height=280&section=header&text=SOYO%20🌿&fontSize=70&fontColor=ffffff&animation=fadeIn&desc=정처%20없이%20천천히%20거닐며%20여유를%20즐기다&descSize=22&fontAlignY=45&descAlignY=63)
 
 # 🌿 소요 (SOYO) - 프론트엔드
 
@@ -63,4 +63,4 @@ pages/login.html 파일을 브라우저에서 열기
 - 📤 게시글 공유 — 내 게시글을 그룹에 공유
 - 📊 내 활동 — 내가 올린 코스, 좋아요한 코스, 저장한 코스 조회
 
-![footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=150&section=footer)
+![footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,3,14,18&height=150&section=footer)
