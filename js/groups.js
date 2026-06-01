@@ -1,164 +1,165 @@
 /* ================================
-   Groups JS
+   Map JS - 카카오맵 + 백엔드 연동
    ================================ */
 
    const BASE_URL = 'http://127.0.0.1:8000';
-
-   /* 이미지 경로 변환: /media/... → http://127.0.0.1:8000/media/... */
+   let kakaoMap = null;
+   let markers  = [];
+   
+   function initMap() {
+     const container = document.getElementById('kakaoMap');
+     const options   = { center: new kakao.maps.LatLng(37.5665, 126.9780), level: 5 };
+     kakaoMap = new kakao.maps.Map(container, options);
+     locateMe();
+     loadMapMarkers();
+   }
+   
+   function locateMe() {
+     if (!navigator.geolocation) return;
+     navigator.geolocation.getCurrentPosition(
+       (pos) => kakaoMap.setCenter(new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude)),
+       () => {}
+     );
+   }
+   
+   function loadMapMarkers() {
+     const token = localStorage.getItem('token');
+     fetch(`${BASE_URL}/api/posts/map/`, {
+       headers: { Authorization: `Bearer ${token}` }
+     })
+     .then(res => res.json())
+     .then(data => {
+       if (data.status === 'success') renderMarkers(data.data || []);
+       else document.getElementById('mapBottomSheet').style.display = 'none';
+     })
+     .catch(() => {
+       document.getElementById('mapBottomSheet').style.display = 'none';
+     });
+   }
+   
+   function renderMarkers(posts) {
+     markers.forEach(m => m.setMap(null));
+     markers = [];
+   
+     posts.forEach(post => {
+       if (!post.latitude || !post.longitude) return;
+       const latlng = new kakao.maps.LatLng(post.latitude, post.longitude);
+       const marker = new kakao.maps.Marker({ position: latlng, map: kakaoMap });
+       kakao.maps.event.addListener(marker, 'click', () => renderBottomSheet(post));
+       markers.push(marker);
+     });
+   
+     if (posts.length > 0) renderBottomSheet(posts[0]);
+     else document.getElementById('mapBottomSheet').style.display = 'none';
+   }
+   
    function imgUrl(url) {
      if (!url) return '';
      return url.startsWith('http') ? url : `${BASE_URL}${url}`;
    }
    
+   function renderBottomSheet(post) {
+     document.getElementById('mapBottomSheet').style.display = 'block';
+     const image    = imgUrl(post.images?.[0] || '');
+     const location = post.start_location || post.location || '';
+     const tags     = post.tags || [];
    
-   function renderGroups(groups) {
-     const list = document.getElementById('groupsList');
-   
-     const cards = (groups || []).map(g => `
-       <div class="group-card" onclick="goGroupFeed(${g.group_id || g.id}, '${g.name}', '${g.code}')">
-         <div>
-           <div class="group-card__name">${g.name}</div>
-           <div class="group-code-badge">코드: ${g.code}</div>
-         </div>
-         <div class="group-card__members">
-           ${(g.members && g.members.length > 0)
-             ? g.members.slice(0, 4).map(m => `
-                 <img class="group-member-avatar"
-                   src="${imgUrl(m.profile_image) || '../default-profile.jpeg'}"
-                   alt="${m.nickname || '멤버'}"
-                   onerror="this.src='../default-profile.jpeg'" />`).join('')
-             : `<div style="width:40px;height:40px;border-radius:50%;background:var(--primary-bg);
-                   display:flex;align-items:center;justify-content:center;font-size:18px;">👤</div>`
-           }
-         </div>
-       </div>`).join('');
-   
-     const emptyMsg = (!groups || groups.length === 0) ? `
-       <div class="feed-empty">
-         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-           <polyline points="9 22 9 12 15 12 15 22"/>
-         </svg>
-         <p>아직 참여한 그룹이 없어요.<br>+ 버튼을 눌러 그룹을 만들어보세요!</p>
-       </div>` : '';
-   
-     const addBtn = `
-       <button class="group-add-btn" onclick="openJoinModal()">+</button>`;
-   
-     list.innerHTML = emptyMsg + cards + addBtn;
-   }
-   
-   /* 그룹 피드로 이동 */
-   function goGroupFeed(groupId, name, code) {
-     window.location.href = `group-feed.html?id=${groupId}&name=${encodeURIComponent(name)}&code=${encodeURIComponent(code)}`;
-   }
-   
-   function showGroupCode(name, code) {
-     const existing = document.getElementById('groupCodeModal');
-     if (existing) existing.remove();
-   
-     const overlay = document.createElement('div');
-     overlay.id = 'groupCodeModal';
-     overlay.className = 'modal-overlay';
-     overlay.style.cssText = 'display:flex;align-items:center;justify-content:center;';
-     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-   
-     overlay.innerHTML = `
-       <div class="group-code-modal">
-         <button class="modal-close-btn" onclick="document.getElementById('groupCodeModal').remove()"
-           style="position:absolute;top:16px;right:16px;">✕</button>
-         <div class="modal-title">${name}</div>
-         <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">그룹 코드를 공유해서 친구를 초대해요!</p>
-         <div class="group-code-display">${code}</div>
-         <button class="group-code-copy-btn" onclick="copyGroupCode('${code}')">코드 복사</button>
-       </div>`;
-   
-     document.body.appendChild(overlay);
-   }
-   
-   function copyGroupCode(code) {
-     navigator.clipboard.writeText(code)
-       .then(() => alert('코드가 복사되었습니다!'))
-       .catch(() => {
-         const el = document.createElement('textarea');
-         el.value = code;
-         document.body.appendChild(el);
-         el.select();
-         document.execCommand('copy');
-         document.body.removeChild(el);
-         alert('코드가 복사되었습니다!');
-       });
-   }
-   
-   function openJoinModal() {
-     const existing = document.getElementById('joinModal');
-     if (existing) existing.remove();
-   
-     const overlay = document.createElement('div');
-     overlay.id = 'joinModal';
-     overlay.className = 'modal-overlay';
-     overlay.style.cssText = 'display:flex;align-items:center;justify-content:center;';
-     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-   
-     overlay.innerHTML = `
-       <div style="background:white;border-radius:16px;width:calc(100% - 48px);max-width:400px;padding:28px 24px;position:relative;">
-         <button onclick="document.getElementById('joinModal').remove()"
-           style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#666;">✕</button>
-         <div style="font-size:14px;font-weight:600;color:#666;margin-bottom:8px;">코드 입력</div>
-         <div style="display:flex;border:1.5px solid #222;border-radius:8px;overflow:hidden;align-items:center;">
-           <input type="text" id="joinCodeInput" placeholder="코드를 입력하세요"
-             style="flex:1;border:none;padding:14px 16px;font-size:15px;outline:none;" />
-           <button onclick="document.getElementById('joinCodeInput').value=''"
-             style="background:none;border:none;padding:0 14px;font-size:18px;color:#999;cursor:pointer;">×</button>
-         </div>
-         <div style="display:flex;justify-content:flex-end;margin-top:24px;">
-           <button onclick="submitJoin()"
-             style="background:#2DB400;color:white;border:none;border-radius:24px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;">
-             참가
-           </button>
+     document.getElementById('sheetPost').innerHTML = `
+       <img class="sheet-post__image" src="${image}" alt="${post.title}"
+         onerror="this.style.background='var(--gray-200)';this.removeAttribute('src')" />
+       <div class="sheet-post__info">
+         <div class="sheet-post__title">${post.title}</div>
+         <div class="sheet-post__tags">${tags.map(t => `<span>#${t}</span>`).join('')}</div>
+         <div class="sheet-post__footer">
+           <div class="sheet-post__location">
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+               <circle cx="12" cy="10" r="3"/>
+             </svg>
+             ${location}
+           </div>
+           <div class="sheet-post__actions">
+             <button onclick="toggleLikeMap(event, ${post.post_id || post.id})">
+               <svg width="20" height="20" viewBox="0 0 24 24"
+                 fill="${post.is_liked ? '#e74c3c' : 'none'}"
+                 stroke="${post.is_liked ? '#e74c3c' : '#bbb'}" stroke-width="2">
+                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+               </svg>
+             </button>
+             <button onclick="toggleSaveMap(event, ${post.post_id || post.id})">
+               <svg width="20" height="20" viewBox="0 0 24 24"
+                 fill="${post.is_bookmarked ? '#2DB400' : 'none'}"
+                 stroke="${post.is_bookmarked ? '#2DB400' : '#bbb'}" stroke-width="2">
+                 <polygon points="19 21 12 16 5 21 5 3 19 3"/>
+               </svg>
+             </button>
+           </div>
          </div>
        </div>`;
    
-     document.body.appendChild(overlay);
+     document.getElementById('sheetPost').onclick = () =>
+       window.location.href = `post-detail.html?id=${post.post_id || post.id}`;
    }
    
-   function submitJoin() {
-     const code  = document.getElementById('joinCodeInput')?.value.trim();
-     if (!code) { alert('코드를 입력해주세요.'); return; }
+   function toggleLikeMap(e, postId) {
+     e.stopPropagation();
+     const token   = localStorage.getItem('token');
+     const svg     = e.currentTarget.querySelector('svg');
+     const isLiked = svg.getAttribute('fill') !== 'none';
    
-     const token = localStorage.getItem('token');
-     fetch(`${BASE_URL}/api/groups/join/`, {
+     // 즉시 UI 반영
+     svg.setAttribute('fill',   !isLiked ? '#e74c3c' : 'none');
+     svg.setAttribute('stroke', !isLiked ? '#e74c3c' : '#bbb');
+   
+     fetch(`${BASE_URL}/api/posts/${postId}/likes/`, {
        method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         Authorization: `Bearer ${token}`
-       },
-       body: JSON.stringify({ code })
-     })
-     .then(res => res.json())
-     .then(data => {
-       if (data.status === 'success') {
-         alert('그룹에 참여했습니다!');
-         document.getElementById('joinModal')?.remove();
-         loadGroups();
-       } else {
-         alert(data.message || '유효하지 않은 코드입니다.');
-       }
-     })
-     .catch(() => alert('그룹 참여에 실패했습니다.'));
-   }
-   
-   function loadGroups() {
-     const token = localStorage.getItem('token');
-     fetch(`${BASE_URL}/api/groups/me/`, {
        headers: { Authorization: `Bearer ${token}` }
      })
      .then(res => res.json())
      .then(data => {
-       if (data.status === 'success') renderGroups(data.data || []);
-       else renderGroups([]);
+       if (data.status !== 'success') {
+         // 실패 시 되돌리기
+         svg.setAttribute('fill',   isLiked ? '#e74c3c' : 'none');
+         svg.setAttribute('stroke', isLiked ? '#e74c3c' : '#bbb');
+       }
      })
-     .catch(() => renderGroups([]));
+     .catch(() => {
+       svg.setAttribute('fill',   isLiked ? '#e74c3c' : 'none');
+       svg.setAttribute('stroke', isLiked ? '#e74c3c' : '#bbb');
+     });
    }
    
-   loadGroups();  
+   function toggleSaveMap(e, postId) {
+     e.stopPropagation();
+     const token   = localStorage.getItem('token');
+     const svg     = e.currentTarget.querySelector('svg');
+     const isSaved = svg.getAttribute('fill') !== 'none';
+   
+     // 즉시 UI 반영
+     svg.setAttribute('fill',   !isSaved ? '#2DB400' : 'none');
+     svg.setAttribute('stroke', !isSaved ? '#2DB400' : '#bbb');
+   
+     fetch(`${BASE_URL}/api/posts/${postId}/bookmarks/`, {
+       method: 'POST',
+       headers: { Authorization: `Bearer ${token}` }
+     })
+     .then(res => res.json())
+     .then(data => {
+       if (data.status !== 'success') {
+         svg.setAttribute('fill',   isSaved ? '#2DB400' : 'none');
+         svg.setAttribute('stroke', isSaved ? '#2DB400' : '#bbb');
+       }
+     })
+     .catch(() => {
+       svg.setAttribute('fill',   isSaved ? '#2DB400' : 'none');
+       svg.setAttribute('stroke', isSaved ? '#2DB400' : '#bbb');
+     });
+   }
+   
+   if (typeof kakao !== 'undefined' && kakao.maps) {
+     kakao.maps.load(initMap);
+   } else {
+     window.addEventListener('load', () => {
+       if (typeof kakao !== 'undefined' && kakao.maps) kakao.maps.load(initMap);
+     });
+   }
